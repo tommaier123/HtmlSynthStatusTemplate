@@ -1,0 +1,7 @@
+{
+"name": "{{SongName}}",
+"artist": "{{SongAuthor}}",
+"mapper": "{{Beatmapper}}",
+"difficulty": "{{Difficulty}}"
+}
+{{CoverImage}}

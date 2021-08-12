@@ -1,0 +1,71 @@
+<html>
+<head>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+        * {
+            font-family: roboto;
+        }
+
+        body {
+            background: #212121;
+            color: #fff;
+            position: absolute;
+            width: 1920px;
+            height: 1080px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .text {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="hide">
+        <span id="name"></span><br>
+        <span class="text">by </span><span id="artist"></span><br>
+        <span class="text">mapped by </span><span id="mapper"></span><br>
+        <span class="text">difficulty </span><span id="difficulty"></span><br>
+    </div>
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var lastdata;
+
+    const interval = setInterval(function () {
+        readTextFile("SongStatusOutput.txt", function (text) {
+            if (text == "") {
+                $("#hide").fadeOut(500);
+            } else {
+                var data = JSON.parse(text);
+                if (lastdata != data) {
+                    $("#hide").fadeIn(500);
+                    $("#name").html(data.name);
+                    $("#artist").html(data.artist);
+                    $("#mapper").html(data.mapper);
+                    $("#difficulty").html(data.difficulty);
+                    lastdata = data;
+                }
+            }
+        });
+    }, 1000);
+
+
+    function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", file, false);
+        rawFile.onreadystatechange = function () {
+            if (rawFile.readyState === 4) {
+                if (rawFile.status === 200 || rawFile.status == 0) {
+                    callback(rawFile.responseText);
+                }
+            }
+        }
+        rawFile.send(null);
+    }
+</script>
